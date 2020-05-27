@@ -1,8 +1,8 @@
 <template>
   <div class="about">
     <h1>新建分類</h1>
-    <el-form label-width="120px">
-      <el-form-item label="名稱" @submit.native.prevent="save">
+    <el-form label-width="120px" @submit.native.prevent="save">
+      <el-form-item label="名稱">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
       <el-form-item>
