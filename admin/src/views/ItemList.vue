@@ -4,6 +4,12 @@
     <el-table :data="items">
       <el-table-column prop="_id" label="ID" width="240"></el-table-column>
       <el-table-column prop="name" label="物品名稱"></el-table-column>
+      <el-table-column prop="name" label="圖標">
+        <template slot-scope="scope">
+          <img :src="scope.row.icon" style="height:3em;"> 
+        </template>
+      </el-table-column>
+
       <el-table-column fixed="right" label="操作" width="180">
         <template slot-scope="scope">
           <el-button
@@ -35,21 +41,14 @@
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
-        })
-          .then(async () => {
-            await this.$http.delete(`rest/items/${row._id}`);
-            this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            this.fetch();
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除"
-            });
+        }).then(async () => {
+          await this.$http.delete(`rest/items/${row._id}`);
+          this.$message({
+            type: "success",
+            message: "删除成功!"
           });
+          this.fetch();
+        });
       }
     },
     created() {
