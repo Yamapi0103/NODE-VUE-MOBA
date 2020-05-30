@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+
+server/uploads
+# 上傳的圖片不加入版本控制

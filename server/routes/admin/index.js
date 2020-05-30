@@ -4,7 +4,7 @@ module.exports = (app) => {
     mergeParams: true,
   });
   router.post("/", async (req, res) => {
-    console.log('post',req.body);
+    console.log("post", req.body);
     const model = await req.Model.create(req.body);
     res.send(model);
   });
@@ -43,13 +43,22 @@ module.exports = (app) => {
   );
 
   const multer = require("multer");
-  var path = require('path');
-  const upload = multer({ dest: path.join(__dirname, "/../../uploads") }); // __dirname:文件當前目錄
+  var path = require("path");
+  // const upload = multer({ dest: path.join(__dirname, "/../../uploads") }); // __dirname:文件當前目錄
+  var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, path.join(__dirname, "/../../uploads"));
+    },
+    // 將filename由隨機變數改為originalname(圖片在電腦裡的檔名)
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  });
+  var upload = multer({ storage: storage });
 
-  app.post("/admin/api/upload", upload.single('file'),async (req, res) => {
-    const file = req.file
-    console.log('in here',file);
-    file.url = `http://localhost:3000/uploads/${file.filename}`
-    res.send(file)
+  app.post("/admin/api/upload", upload.single("file"), async (req, res) => {
+    const file = req.file;
+    file.url = `http://localhost:3000/uploads/${file.filename}`;
+    res.send(file);
   });
 };
