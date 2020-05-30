@@ -2,11 +2,6 @@
   <div class="about">
     <h1>{{id? '編輯':'新建'}}物品</h1>
     <el-form label-width="120px" @submit.native.prevent="save">
-      <!-- <el-form-item label="上級分類">
-        <el-select v-model="model.parent">
-          <el-option v-for="item in parents" :key="item._id" :label="item.name" :value="item._id"></el-option>
-        </el-select>
-      </el-form-item>-->
       <el-form-item label="名稱">
         <el-input v-model="model.name"></el-input>
       </el-form-item>
