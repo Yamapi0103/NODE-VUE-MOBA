@@ -38,7 +38,7 @@ module.exports = (app) => {
       const modelName = require("inflection").classify(req.params.resource);
       req.Model = require(`../../models/${modelName}`);
       next();
-    },
+    },  
     router
   );
 
