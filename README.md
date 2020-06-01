@@ -5,3 +5,7 @@
 
 在對應資料夾底下執行npm run serve，即可開啟對應的程式碼
 
+教學視頻:
+https://www.bilibili.com/video/BV1A4411Y7fi
+UP主github:
+https://github.com/topfullstack/node-vue-moba

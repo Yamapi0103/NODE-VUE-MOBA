@@ -53,6 +53,7 @@
     <el-container>
       <el-header style="text-align: right; font-size: 12px">
         <el-dropdown>
+          <button style="margin-right:0.5rem;" @click="logout">登出</button>
           <i class="el-icon-setting" style="margin-right: 15px"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>查看</el-dropdown-item>
@@ -92,6 +93,12 @@
       return {
         tableData: Array(20).fill(item)
       };
+    },
+    methods:{
+      logout(){
+        localStorage.removeItem('token')
+        this.$router.push('/login')
+      }
     }
   };
 </script>
