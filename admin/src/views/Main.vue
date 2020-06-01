@@ -1,16 +1,11 @@
 <template>
   <el-container style="height: 100vh;">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu router :default-openeds="['1', '3']">
+      <el-menu router :default-openeds="['1']" unique-opened :default-active="$route.path">
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-message"></i>內容管理
           </template>
-          <el-menu-item-group>
-            <template slot="title">分類</template>
-            <el-menu-item index="/categories/create">新建分類</el-menu-item>
-            <el-menu-item index="/categories/list">分類列表</el-menu-item>
-          </el-menu-item-group>
           <el-menu-item-group>
             <template slot="title">物品</template>
             <el-menu-item index="/items/create">新建物品</el-menu-item>
@@ -26,10 +21,30 @@
             <el-menu-item index="/articles/create">新建文章</el-menu-item>
             <el-menu-item index="/articles/list">文章列表</el-menu-item>
           </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+          <template slot="title">
+            <i class="el-icon-message"></i>運營管理
+          </template>
           <el-menu-item-group>
             <template slot="title">廣告位</template>
             <el-menu-item index="/ads/create">新建廣告位</el-menu-item>
             <el-menu-item index="/ads/list">廣告位列表</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3">
+          <template slot="title">
+            <i class="el-icon-message"></i>系統設置
+          </template>
+          <el-menu-item-group>
+            <template slot="title">分類</template>
+            <el-menu-item index="/categories/create">新建分類</el-menu-item>
+            <el-menu-item index="/categories/list">分類列表</el-menu-item>
+          </el-menu-item-group>
+          <el-menu-item-group>
+            <template slot="title">管理員</template>
+            <el-menu-item index="/admin_user/create">新建管理員</el-menu-item>
+            <el-menu-item index="/admin_user/list">管理員列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
