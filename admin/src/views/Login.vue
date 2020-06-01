@@ -23,9 +23,10 @@
         model: {}
       };
     },
-    methods:{
-      login(){
-        console.log(this.model);
+    methods: {
+      async login() {
+        const res = await this.$http.post("login", this.model);
+        console.log(res.data);
       }
     }
   };

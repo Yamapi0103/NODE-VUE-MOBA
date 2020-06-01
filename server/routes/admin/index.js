@@ -4,7 +4,6 @@ module.exports = (app) => {
     mergeParams: true,
   });
   router.post("/", async (req, res) => {
-    console.log("post", req.body);
     const model = await req.Model.create(req.body);
     res.send(model);
   });
@@ -38,7 +37,7 @@ module.exports = (app) => {
       const modelName = require("inflection").classify(req.params.resource);
       req.Model = require(`../../models/${modelName}`);
       next();
-    },  
+    },
     router
   );
 
@@ -60,5 +59,19 @@ module.exports = (app) => {
     const file = req.file;
     file.url = `http://localhost:3000/uploads/${file.filename}`;
     res.send(file);
+  });
+
+  app.post("/admin/api/login", async (req, res) => {
+    const { username, password } = req.body;
+    // 1.根據用戶找名找用戶
+    const AdminUser = require("../../models/AdminUser");
+    const user = await AdminUser.findOne({ username });
+    if (!user) {
+      return res.status(422).send({
+        message: "用戶不存在",
+      });
+    }
+    // 2.校驗密碼
+    // 3.返回token
   });
 };
