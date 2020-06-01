@@ -19,7 +19,7 @@ module.exports = (app) => {
   });
   // 刪除資源
   router.delete("/:id", async (req, res) => {
-    await req.Model.findByIdAndDelete(req.params.id, req.body);
+    await req.Model.findByIdAndDelete(req.params.id);
     res.send({
       success: true,
     });
@@ -31,7 +31,7 @@ module.exports = (app) => {
       queryOptions.populate = "parent";
     }
     // const items = await req.Model.find().populate('parent').limit(10)
-    const items = await req.Model.find().setOptions(queryOptions).limit(10);
+    const items = await req.Model.find().setOptions(queryOptions).limit(100);
 
     res.send(items);
   });
@@ -79,14 +79,14 @@ module.exports = (app) => {
     const { username, password } = req.body;
     // 1.根據用戶找名找用戶
     const user = await AdminUser.findOne({ username }).select("+password");
-    if (!user) {
-      assert(user, 422, "用戶不存在");
-    }
+
+    assert(user, 422, "用戶不存在");
+
     // 2.校驗密碼
     const isValid = require("bcrypt").compareSync(password, user.password);
-    if (!isValid) {
-      assert(user, 422, "密碼錯誤");
-    }
+
+    assert(isValid, 422, "密碼錯誤");
+
     // 3.返回token
     const token = jwt.sign({ id: user._id }, app.get("secret"));
     res.send({ token });
