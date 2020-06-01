@@ -65,13 +65,27 @@ module.exports = (app) => {
     const { username, password } = req.body;
     // 1.根據用戶找名找用戶
     const AdminUser = require("../../models/AdminUser");
-    const user = await AdminUser.findOne({ username });
+    const user = await AdminUser.findOne({ username }).select("+password");
     if (!user) {
       return res.status(422).send({
         message: "用戶不存在",
       });
     }
     // 2.校驗密碼
+    const isValid = require("bcrypt").compareSync(password, user.password);
+    if (!isValid) {
+      return res.status(422).send({
+        message: "密碼錯誤",
+      });
+    }
     // 3.返回token
+    const jwt = require("jsonwebtoken");
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      app.get("secret")
+    );
+    res.send({token})
   });
 };
