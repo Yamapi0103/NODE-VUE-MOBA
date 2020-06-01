@@ -7,6 +7,7 @@ const http = axios.create({
 
 http.interceptors.request.use(
   function(config) {
+    console.log('in request');
     if(localStorage.token){
       config.headers.Authorization = "Bearer " + localStorage.token;
     }

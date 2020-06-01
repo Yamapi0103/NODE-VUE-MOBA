@@ -12,6 +12,7 @@
           :show-file-list="false"
           :on-success="afterUpload"
           accept="image/*"
+          :headers="getAuthHeaders()"
         >
           <img v-if="model.icon" :src="model.icon" class="avatar" />
           <i v-else class="el-icon-plus avatar-uploader-icon"></i>

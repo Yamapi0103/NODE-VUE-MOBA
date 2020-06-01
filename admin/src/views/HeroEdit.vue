@@ -44,6 +44,7 @@
               :show-file-list="false"
               :on-success="afterUpload"
               accept="image/*"
+              :headers="getAuthHeaders()"
             >
               <img v-if="model.avatar" :src="model.avatar" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -86,6 +87,7 @@
                   :show-file-list="false"
                   :on-success="res=>$set(item,'icon',res.url)"
                   accept="image/*"
+                  :headers="getAuthHeaders()"
                 >
                   <img v-if="item.icon" :src="item.icon" class="avatar" />
                   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
