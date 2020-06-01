@@ -1,6 +1,7 @@
 module.exports = (app) => {
   const express = require("express");
   const jwt = require("jsonwebtoken");
+  const assert = require("http-assert");
   const AdminUser = require("../../models/AdminUser");
 
   const router = express.Router({
@@ -24,42 +25,43 @@ module.exports = (app) => {
     });
   });
   // 資源列表
-  router.get(
-    "/",
-    async (req, res, next) => {
-      const token = String(req.headers.authorization || "")
-        .split(" ")
-        .pop();
-      const { id } = jwt.verify(token, app.get("secret"));
-      req.user = await AdminUser.findById(id)
-      // console.log('req.user',req.user);
-      
-      await next();
-    },
-    async (req, res) => {
-      // console.log('req.user2',req.user);
-      const queryOptions = {};
-      if (req.Model.modelName === "Category") {
-        queryOptions.populate = "parent";
-      }
-      // const items = await req.Model.find().populate('parent').limit(10)
-      const items = await req.Model.find().setOptions(queryOptions).limit(10);
-
-      res.send(items);
+  router.get("/", async (req, res) => {
+    const queryOptions = {};
+    if (req.Model.modelName === "Category") {
+      queryOptions.populate = "parent";
     }
-  );
+    // const items = await req.Model.find().populate('parent').limit(10)
+    const items = await req.Model.find().setOptions(queryOptions).limit(10);
+
+    res.send(items);
+  });
   // 資源詳情
   router.get("/:id", async (req, res) => {
     const model = await req.Model.findById(req.params.id);
     res.send(model);
   });
+  const authMiddleware = async (req, res, next) => {
+    // 登陸較驗middleware
+    const token = String(req.headers.authorization || "")
+      .split(" ")
+      .pop();
+    assert(token, 401, "請先登錄");
+    const { id } = jwt.verify(token, app.get("secret"));
+    assert(id, 401, "請先登錄");
+    req.user = await AdminUser.findById(id);
+    assert(req.user, 401, "請先登錄");
+    await next();
+  };
+  // 獲取模型middleware
+  const resourceMiddleware = async (req, res, next) => {
+    const modelName = require("inflection").classify(req.params.resource);
+    req.Model = require(`../../models/${modelName}`);
+    next();
+  };
   app.use(
     "/admin/api/rest/:resource",
-    async (req, res, next) => {
-      const modelName = require("inflection").classify(req.params.resource);
-      req.Model = require(`../../models/${modelName}`);
-      next();
-    },
+    authMiddleware,
+    resourceMiddleware,
     router
   );
 
@@ -77,30 +79,38 @@ module.exports = (app) => {
   });
   var upload = multer({ storage: storage });
 
-  app.post("/admin/api/upload", upload.single("file"), async (req, res) => {
-    const file = req.file;
-    file.url = `http://localhost:3000/uploads/${file.filename}`;
-    res.send(file);
-  });
+  app.post(
+    "/admin/api/upload",
+    authMiddleware,
+    upload.single("file"),
+    async (req, res) => {
+      const file = req.file;
+      file.url = `http://localhost:3000/uploads/${file.filename}`;
+      res.send(file);
+    }
+  );
 
   app.post("/admin/api/login", async (req, res) => {
     const { username, password } = req.body;
     // 1.根據用戶找名找用戶
     const user = await AdminUser.findOne({ username }).select("+password");
     if (!user) {
-      return res.status(422).send({
-        message: "用戶不存在",
-      });
+      assert(user, 422, "用戶不存在");
     }
     // 2.校驗密碼
     const isValid = require("bcrypt").compareSync(password, user.password);
     if (!isValid) {
-      return res.status(422).send({
-        message: "密碼錯誤",
-      });
+      assert(user, 422, "密碼錯誤");
     }
     // 3.返回token
     const token = jwt.sign({ id: user._id }, app.get("secret"));
     res.send({ token });
+  });
+
+  // 錯誤處理函數
+  app.use(async (err, req, res, next) => {
+    res.status(err.statusCode || 500).send({
+      message: err.message,
+    });
   });
 };
