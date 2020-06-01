@@ -40,28 +40,13 @@ module.exports = (app) => {
     const model = await req.Model.findById(req.params.id);
     res.send(model);
   });
-  const authMiddleware = async (req, res, next) => {
-    // 登陸較驗middleware
-    const token = String(req.headers.authorization || "")
-      .split(" ")
-      .pop();
-    assert(token, 401, "請先登錄");
-    const { id } = jwt.verify(token, app.get("secret"));
-    assert(id, 401, "請先登錄");
-    req.user = await AdminUser.findById(id);
-    assert(req.user, 401, "請先登錄");
-    await next();
-  };
+  const authMiddleware = require("../../middleware/auth");
   // 獲取模型middleware
-  const resourceMiddleware = async (req, res, next) => {
-    const modelName = require("inflection").classify(req.params.resource);
-    req.Model = require(`../../models/${modelName}`);
-    next();
-  };
+  const resourceMiddleware = require("../../middleware/resource");
   app.use(
     "/admin/api/rest/:resource",
-    authMiddleware,
-    resourceMiddleware,
+    authMiddleware(),
+    resourceMiddleware(),
     router
   );
 
@@ -81,8 +66,8 @@ module.exports = (app) => {
 
   app.post(
     "/admin/api/upload",
-    authMiddleware,
     upload.single("file"),
+    // authMiddleware(),
     async (req, res) => {
       const file = req.file;
       file.url = `http://localhost:3000/uploads/${file.filename}`;
