@@ -3,7 +3,7 @@ module.exports = (options) => {
   const jwt = require("jsonwebtoken");
   const assert = require("http-assert");
   return async (req, res, next) => {
-    // 登陸較驗middleware
+    // 登陸校驗middleware
     const token = String(req.headers.authorization || "")
       .split(" ")
       .pop();
