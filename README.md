@@ -9,3 +9,7 @@
 https://www.bilibili.com/video/BV1A4411Y7fi
 UP主github:
 https://github.com/topfullstack/node-vue-moba
+
+
+###小技巧
+console裡下$$('.news_list .title').map(el => el.innerHTML)
