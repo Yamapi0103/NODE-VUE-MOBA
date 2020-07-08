@@ -28,50 +28,27 @@
     </div>
     <!-- end of nav icons -->
 
-  <m-card icon="menu1" title="新聞資訊">
-    <div class="card-body pt-3">
-        <div class="nav jc-between">
-          <div class="nav-item active">
-            <div class="nav-link">熱門</div>
-          </div>
-          <div class="nav-item">
-            <div class="nav-link">新聞</div>
-          </div>
-          <div class="nav-item">
-            <div class="nav-link">公告</div>
-          </div>
-          <div class="nav-item">
-            <div class="nav-link">活動</div>
-          </div>
-          <div class="nav-item">
-            <div class="nav-link">賽事</div>
-          </div>
+    <m-list-card icon="menu1" title="新聞資訊" :categories="newsCats">
+      <template #items="{category}">
+        <div class="py-2" v-for="(news,i) in category.newsList" :key="i">
+          <span>[{{news.categoryName}}]</span>
+          <span>|</span>
+          <span>{{news.title}}</span>
+          <span>{{news.date}}</span>
         </div>
-        <div class="pt-3">
-          <swiper>
-            <swiper-slide v-for="m in 5" :key="m">
-              <div class="py-2" v-for="n in 5" :key="n">
-                <span>[新聞]</span>
-                <span>|</span>
-                <span>7月8日外挂专项打击公告</span>
-                <span>06/02</span>
-              </div>
-            </swiper-slide>
-          </swiper>
-        </div>
-      </div>
-  </m-card>
-  <m-card icon="menu1" title="英雄列表"></m-card>
-  <m-card icon="menu1" title="精彩視頻"></m-card>
+      </template>
+    </m-list-card>
 
+    <m-card icon="menu1" title="英雄列表"></m-card>
+    <m-card icon="menu1" title="精彩視頻"></m-card>
 
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
-  <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
+    <p>1</p>
   </div>
 </template>
 
@@ -86,7 +63,48 @@
             el: ".pagination-home"
           }
         },
-        newsCats: [],
+        newsCats: [
+          {
+            name: "熱門",
+            newsList: new Array(5).fill(1).map(v => ({
+              categoryName: "公告",
+              title: "7月8日外挂专项打击公告",
+              date: "06/01" + v
+            }))
+          },
+          {
+            name: "熱門",
+            newsList: new Array(5).fill(1).map(v => ({
+              categoryName: "公告",
+              title: "7月8日外挂专项打击公告",
+              date: "06/01" + v
+            }))
+          },
+          {
+            name: "熱門",
+            newsList: new Array(5).fill(1).map(v => ({
+              categoryName: "公告",
+              title: "7月8日外挂专项打击公告",
+              date: "06/01" + v
+            }))
+          },
+          {
+            name: "熱門",
+            newsList: new Array(5).fill(1).map(v => ({
+              categoryName: "公告",
+              title: "7月8日外挂专项打击公告",
+              date: "06/01" + v
+            }))
+          },
+          {
+            name: "熱門",
+            newsList: new Array(5).fill(1).map(v => ({
+              categoryName: "公告",
+              title: "7月8日外挂专项打击公告",
+              date: "06/01" + v
+            }))
+          }
+        ],
         heroCats: []
       };
     }
