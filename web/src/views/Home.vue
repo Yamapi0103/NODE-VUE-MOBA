@@ -39,7 +39,23 @@
       </template>
     </m-list-card>
 
-    <m-card icon="menu1" title="英雄列表"></m-card>
+    <m-list-card icon="card-hero" title="英雄列表" :categories="heroCats">
+      <template #items="{category}">
+        <div class="d-flex flex-wrap" style="margin: 0 -0.5rem;">
+          <router-link
+            tag="div"
+            :to="`/heroes/${hero._id}`"
+            class="p-2 text-center"
+            style="width: 20%;"
+            v-for="(hero, i) in category.heroList"
+            :key="i"
+          >
+            <img :src="hero.avatar" class="w-100" />
+            <div>{{hero.name}}</div>
+          </router-link>
+        </div>
+      </template>
+    </m-list-card>
     <m-card icon="menu1" title="精彩視頻"></m-card>
 
     <p>1</p>
@@ -54,11 +70,11 @@
 
 <script>
   // @ is an alias to /src
-import dayjs from 'dayjs'
+  import dayjs from "dayjs";
   export default {
-    filters:{
-      date(val){
-        return dayjs(val).format('MM/DD')
+    filters: {
+      date(val) {
+        return dayjs(val).format("MM/DD");
       }
     },
     data() {
@@ -84,7 +100,7 @@ import dayjs from 'dayjs'
     },
     created() {
       this.fetchNewsCats();
-      // this.fetchHeroCats();
+      this.fetchHeroCats();
     }
   };
 </script>
