@@ -34,12 +34,12 @@ export default {
       model: null
     };
   },
-  watch: {
-    id: 'fetch',
-    // id(){
-    //   this.fetch()
-    // }
-  },
+  // watch: {
+  //   id: 'fetch',
+  //   // id(){
+  //   //   this.fetch()
+  //   // }
+  // },
   methods: {
     async fetch() {
       const res = await this.$http.get(`articles/${this.id}`);
@@ -55,7 +55,7 @@ export default {
 <style lang="scss">
 .page-article {
   .icon-Back {
-    font-size: 1.6923rem;
+    font-size: 1.6923rem; //22px
   }
   .body {
     img {

@@ -64,13 +64,6 @@
     </m-list-card>
     <m-card icon="menu1" title="精彩視頻"></m-card>
 
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
-    <p>1</p>
   </div>
 </template>
 
