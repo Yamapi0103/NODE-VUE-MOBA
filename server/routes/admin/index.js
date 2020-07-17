@@ -57,7 +57,7 @@ module.exports = (app) => {
     destination: function (req, file, cb) {
       cb(null, path.join(__dirname, "/../../uploads"));
     },
-    // 將filename由隨機變數改為originalname(圖片在電腦裡的檔名)
+    // 將filename由隨機變數改為originalname(上傳圖片的檔名)
     filename: function (req, file, cb) {
       cb(null, file.originalname);
     },
