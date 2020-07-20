@@ -1,7 +1,9 @@
 <template>
   <div class="page-hero" v-if="model">
     <div class="topbar bg-black py-2 px-3 d-flex ai-center text-white">
-      <img src="../assets/logo.png" height="30" />
+      <router-link to="/">
+        <img src="../assets/logo.png" height="30" />
+      </router-link>
       <div class="px-2 flex-1">
         <span class="text-white">王者荣耀</span>
         <span class="ml-2">攻略站</span>
@@ -86,7 +88,7 @@
               <div class="fs-xl">顺风出装</div>
               <div class="d-flex jc-around text-center mt-3">
                 <div v-for="item in model.items1" :key="item.name">
-                  <img :src="item.icon" class="icon">
+                  <img :src="item.icon" class="icon" />
                   <div class="fs-xs">{{item.name}}</div>
                 </div>
               </div>
@@ -94,7 +96,7 @@
               <div class="fs-xl mt-3">逆风出装</div>
               <div class="d-flex jc-around text-center mt-3">
                 <div v-for="item in model.items2" :key="item.name">
-                  <img :src="item.icon" class="icon">
+                  <img :src="item.icon" class="icon" />
                   <div class="fs-xs">{{item.name}}</div>
                 </div>
               </div>
@@ -110,16 +112,12 @@
             </m-card>
             <m-card plain icon="menu1" title="英雄关系">
               <div class="fs-xl">最佳搭档</div>
-              <div v-for="item in model.partners" :key="item.name"
-              class="d-flex pt-3">
-                <img :src="item.hero.avatar" alt="" height="50" >
-                <p class="flex-1 m-0 ml-3">
-                  {{item.description}}
-                </p>
+              <div v-for="item in model.partners" :key="item.name" class="d-flex pt-3">
+                <img :src="item.hero.avatar" alt height="50" />
+                <p class="flex-1 m-0 ml-3">{{item.description}}</p>
               </div>
               <div class="border-bottom mt-3"></div>
             </m-card>
-            
           </div>
         </swiper-slide>
         <swiper-slide></swiper-slide>
@@ -129,35 +127,35 @@
 </template>
 
 <script>
-export default {
-  props: {
-    id: { required: true }
-  },
-  data() {
-    return {
-      model: null,
-      currentSkillIndex: 0
-    };
-  },
-  computed: {
-    currentSkill() {
-      return this.model.skills[this.currentSkillIndex];
+  export default {
+    props: {
+      id: { required: true }
+    },
+    data() {
+      return {
+        model: null,
+        currentSkillIndex: 0
+      };
+    },
+    computed: {
+      currentSkill() {
+        return this.model.skills[this.currentSkillIndex];
+      }
+    },
+    methods: {
+      async fetch() {
+        const res = await this.$http.get(`heroes/${this.id}`);
+        this.model = res.data;
+      }
+    },
+    created() {
+      this.fetch();
     }
-  },
-  methods: {
-    async fetch() {
-      const res = await this.$http.get(`heroes/${this.id}`);
-      this.model = res.data;
-    }
-  },
-  created() {
-    this.fetch();
-  }
-};
+  };
 </script>
 
 <style lang="scss">
-@import '../assets/scss/_variables.scss';
+@import "../assets/scss/_variables.scss";
 
 .page-hero {
   .top {
@@ -185,15 +183,15 @@ export default {
     img.icon {
       width: 70px;
       height: 70px;
-      border: 3px solid map-get($colors, 'white');
+      border: 3px solid map-get($colors, "white");
       &.active {
-        border-color:map-get($colors, 'primary');
+        border-color: map-get($colors, "primary");
       }
       border-radius: 50%;
     }
   }
   .hero-items {
-    img.icon{
+    img.icon {
       width: 45px;
       height: 45px;
       border-radius: 50%;

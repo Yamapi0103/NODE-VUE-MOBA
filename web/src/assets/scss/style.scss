@@ -87,13 +87,13 @@ p {
 
 // m-0, mx-0
 @each $typeKey, $type in $spacing-types {
-  // .m-1
+  // .m-1 , .p-1
   @each $sizeKey, $size in $spacing-sizes {
     .#{$typeKey}-#{$sizeKey} {
       #{$type}: $size * $spacing-base-size;
     }
   }
-  // .mx-1 , .my-1
+  // .mx-1 , .my-1 , px-1, py-1
   @each $sizeKey, $size in $spacing-sizes {
     .#{$typeKey}x-#{$sizeKey} {
       #{$type}-left: $size * $spacing-base-size;
