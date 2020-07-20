@@ -5,7 +5,7 @@
 
 執行步驟
 在server資料夾下安裝所需資源(npm i)
-執行npm run serve，即可開啟
+執行npm run serve，即可默認開啟前台，後台網址為/admin
 
 教學視頻:
 https://www.bilibili.com/video/BV1A4411Y7fi
