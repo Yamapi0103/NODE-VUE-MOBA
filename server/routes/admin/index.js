@@ -63,11 +63,11 @@ module.exports = (app) => {
   //     }
   //   })
   // })
-  app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
-    const file = req.file
-    // file.url = `http://test.topfullstack.com/uploads/${file.filename}`
-    res.send(file)
-  })
+  // app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async (req, res) => {
+  //   const file = req.file
+  //   // file.url = `http://test.topfullstack.com/uploads/${file.filename}`
+  //   res.send(file)
+  // })
   var path = require('path')
   // const upload = multer({ dest: path.join(__dirname, "/../../uploads") }); // __dirname:文件當前目錄
   var storage = multer.diskStorage({
